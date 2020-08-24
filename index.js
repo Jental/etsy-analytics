@@ -4,13 +4,13 @@ const util = require('util');
 const _ = require('lodash');
 const moment = require('moment');
 
-const TAGS = [ 'watercolour+bookmark', 'watercolor+bookmark', 'sea+bookmark'];
+const TAGS = [ 'watercolour+bookmark', 'watercolor+bookmark', 'sea+bookmark', 'ocean+bookmark', 'lemon+bookmark' ];
 const SEARCH_TERM = 'NinaFert';
-const MAX_PAGE = 3;
+const MAX_PAGE = 50;
 const DELAY = 5 * 1000; // 5 sec
 const DATA_DIR = 'data';
-// const INTERVAL = 6 * 60 * 60 * 1000; // 6 hours
-const INTERVAL = 5 * 60 * 1000; // 5 min, will be multipled on number of tags
+const INTERVAL = 3 * 60 * 60 * 1000; // 3 hours
+// const INTERVAL = 10 * 60 * 1000; // 5 min, will be multipled on number of tags
 
 const appendFile = util.promisify(fs.appendFile);
 const readDir = util.promisify(fs.readdir);
@@ -102,7 +102,7 @@ const isServiceMode = process.argv.indexOf('--service') >= 0;
 
 (async () => {
   const tags = await getAllTags();
-  const interval2 = INTERVAL * tags.length;
+  const interval2 = INTERVAL;// * tags.length;
 
   console.log('tags:', tags);
   console.log('Interval:', interval2 / 1000 / 60, 'min');

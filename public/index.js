@@ -28,9 +28,8 @@ const readFile = (file) => new Promise((resolve, reject) => {
 });
 
 const prepareData = (original) => {
-  const minTimespamp = _.minBy(original, 'timestamp').timestamp;
-  const maxTimestamp = _.maxBy(original, 'timestamp').timestamp;
-
+  console.log(original);
+  window.original = original;
   const result = _
         .chain(original)
         .map(d => d.entries.map(e => ({
@@ -49,21 +48,7 @@ const prepareData = (original) => {
           entries: es
         }))
         .value();
-
-  const maxPosition = _
-        .chain(result)
-        .flatMap(r => r.entries)
-        .maxBy('position')
-        .value()
-        .position;
-  const minPosition = _
-        .chain(result)
-        .flatMap(r => r.entries)
-        .minBy('position')
-        .value()
-        .position;
-
-  return {result, minTimespamp, maxTimestamp, maxPosition, minPosition};
+  return {result};
 };
 
 // data: [{ timestamp, position, page, positionOnPage }]
@@ -159,7 +144,8 @@ const draw = async (files) => {
   })));
   for (let d of data) {
     try {
-      d.data = JSON.parse('[' + d.data + ']');
+      window.st = '[' + d.data.slice(0, d.data.length - 2) + ']';
+      d.data = JSON.parse(st);
     }
     catch(e) {
       console.error(e);
@@ -182,7 +168,11 @@ const draw = async (files) => {
       .range(['#e41a1c','#377eb8','#4daf4a','#984ea3','#ff7f00','#ffff33','#a65628','#f781bf','#999999']);
 
   for (let data of dataToDraw) {
-    drawSingle(data.name, data.entries, colors);
+    const title =
+          data.entries && data.entries.length > 0
+          ? `${data.name} : ${data.entries[data.entries.length - 1].page} / ${data.entries[data.entries.length - 1].positionOnPage}`
+          : data.name;
+    drawSingle(title, data.entries, colors);
   }
 };
 
