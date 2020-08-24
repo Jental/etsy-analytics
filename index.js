@@ -88,7 +88,7 @@ const saveEntriesToFile = async (fileName, tag, entries) => {
     pages: MAX_PAGE,
     entries: entries
   };
-  await appendFile(filePath, JSON.stringify(data));
+  await appendFile(filePath, JSON.stringify(data) + ',\n');
 };
 
 const getAllTags = async () => {
