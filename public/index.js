@@ -99,7 +99,7 @@ const drawSingle = (name, data, colors) => {
   const xAxis =
         d3.axisBottom(x)
         .tickValues(xTickValues)
-        .tickFormat(d => { const date = new Date(d); return `${date.getFullYear()}.${date.getMonth()}.${date.getDay()} ${date.getHours()}:${date.getMinutes()}`; });
+        .tickFormat(d => { const date = new Date(d); return moment(d).format('YYYY.MM.DD HH:mm'); });
   svg
     .append("g")
     .attr("transform", "translate(0," + height + ")")
